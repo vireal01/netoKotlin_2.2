@@ -20,6 +20,6 @@ class WallServiceTest {
   fun updateNotCreatedUser() {
     val createdUser = WallService.add(Post(ownerId = 11))
     val result = WallService.update(Post(id = (createdUser.id + 1)))
-    assertEquals(false, result)
+    assertEquals(true, result)
   }
 }
