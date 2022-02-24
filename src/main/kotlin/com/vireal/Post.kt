@@ -1,38 +1,38 @@
 package com.vireal
 
-class Comment(
+data class Comment(
   val count: Int = 0,
   val canPost: Boolean = true,
   val groupCanPost: Int = 0,
   val canOpen: Boolean = true
 )
 
-class Copyright(
+data class Copyright(
   val id: Int = 0,
   val link: String = "",
   val name: String = "",
   val type: String = ""
 )
 
-class Like(
+data class Like(
   val count: Int = 0,
   val userLikes: Boolean = false,
   val canLike: Boolean = true,
   val canPublish: Boolean = true
 )
 
-class Reposts(
+data class Reposts(
   val counts: Int = 0,
   val userReposted: Int = 0
 )
 
-class View(
+data class View(
   val count: Int = 0
 )
 
 class Placeholder()
 
-class Donut(
+data class Donut(
   val isDonut: Boolean = false,
   val paidDuration: Int = 0,
   val placeholder: Placeholder = Placeholder()
@@ -40,7 +40,7 @@ class Donut(
 
 data class Post(
   var id: Int = 0,
-  val ownerId: Int = 8,
+  val ownerId: Int = 0,
   val fromId: Int = 0,
   val created_by: Int = 0,
   val date: Long = System.currentTimeMillis(),
@@ -52,7 +52,7 @@ data class Post(
   val copyright: Copyright = Copyright(),
   val likes: Like = Like(),
   val reposts: Reposts = Reposts(),
-  val views: Int = 0,
+  val views: View = View(),
   val postType: String = "",
   val signerId: Int = 0,
   val canPin: Boolean = false,
@@ -83,22 +83,13 @@ object WallService {
   }
 
   fun update(post: Post): Boolean {
-    var requiredPostIndex = -1
-    println(post.toString())
-    posts.forEach {
-      run {
-        if (it.id == post.id) {
-          requiredPostIndex = posts.indexOf(it)
-        }
-      }
-    }
+    val requiredPostIndex = posts.indexOfFirst { it.id == post.id }
     return if (requiredPostIndex == -1){
       false
     } else {
       posts[requiredPostIndex] = Post(
         id = post.id,
-        date = post.date,
-        ownerId = 99
+        date = post.date
       )
       true
     }
