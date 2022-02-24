@@ -66,17 +66,17 @@ data class Post(
 )
 
 object WallService {
+  private fun increaseId() {
+    this.id +=1
+  }
   private var posts = emptyArray<Post>()
   private var id: Int = 0
-    get() {
-      field += 1
-      return field
-    }
   fun getAllItems(): String {
     return posts.contentToString()
   }
 
   fun add(post: Post): Post {
+    increaseId()
     post.id = id
     posts += post
     return posts.last()
